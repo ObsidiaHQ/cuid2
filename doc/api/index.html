@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="generator" content="made with love by dartdoc 5.1.0-dev">
+  <meta name="description" content="cuid2 API docs, for the Dart programming language.">
+  <title>cuid2 - Dart API docs</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="static-assets/github.css?v1">
+  <link rel="stylesheet" href="static-assets/styles.css?v1">
+  <link rel="icon" href="static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href=""
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="https://github.com/obsidiaHQ/cuid2">cuid2 package</a></li>
+  </ol>
+  <div class="self-name">cuid2</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      
+<section class="desc markdown">
+  <h1 id="cuid2">Cuid2</h1>
+<p>Secure, collision-resistant ids optimized for horizontal scaling and performance. Next generation UUIDs.</p>
+<p>Need unique ids in your app? Forget UUIDs and GUIDs which often collide in large apps. Use Cuid2, instead.</p>
+<p><strong>Cuid2 is:</strong></p>
+<ul>
+<li><strong>Secure:</strong> It's not feasible to guess the next id, existing valid ids, or learn anything about the referenced data from the id. Cuid2 uses multiple, independent entropy sources and hashes them with a security-audited, NIST-standard cryptographically secure hashing algorithm (Sha3).</li>
+<li><strong>Collision resistant:</strong> It's extremely unlikely to generate the same id twice (by default, you'd need to generate roughly 4,000,000,000,000,000,000 ids (<a href="https://en.wikipedia.org/wiki/Birthday_problem#Square_approximation"><code>sqrt(36^(24-1) * 26) = 4.0268498e+18</code></a>) to reach 50% chance of collision.</li>
+<li><strong>Horizontally scalable:</strong> Generate ids on multiple machines without coordination.</li>
+<li><strong>Offline-compatible:</strong> Generate ids without a network connection.</li>
+<li><strong>URL and name-friendly:</strong> No special characters.</li>
+<li><strong>Fast and convenient:</strong> No async operations. Won't introduce user-noticeable delays. Less than 5k, gzipped.</li>
+<li><strong>But not <em>too fast</em>:</strong> If you can hash too quickly you can launch parallel attacks to find duplicates or break entropy-hiding. For unique ids, the fastest runner loses the security race.</li>
+</ul>
+<p><strong>Cuid2 is not good for:</strong></p>
+<ul>
+<li>Sequential ids (see the <a href="https://github.com/paralleldrive/cuid2#note-on-k-sortablesequentialmonotonically-increasing-ids">note on K-sortable ids</a>, below)</li>
+<li>High performance tight loops, such as render loops (if you don't need cross-host unique ids or security, consider a simple counter for this use-case, or try <a href="https://github.com/ulid/javascript">Ulid</a> or <a href="https://github.com/ai/nanoid">NanoId</a>).</li>
+</ul>
+<p><strong><a href="https://github.com/paralleldrive/cuid2">Learn more</a></strong></p>
+<h2 id="usage">Usage</h2>
+<pre class="language-dart"><code class="language-dart">// import package
+
+void main() {
+  final id = cuid();
+  final id30 = cuidSecure(30);
+
+  print(id); // eh82waoo5fi41lgncwv5oxxb
+  print(id30); // oxjkyfqo3aqk3jigelnuyp3ef299qx
+}
+</code></pre>
+<h2 id="testing">Testing</h2>
+<p>a histogram analysis is done on every batch of tests to ensure a fair and random distribution across the whole entropy range. Any bias found during the analysis would increase the chances of ID collision and cause the tests to fail automatically.</p><img alt="Histogram" src="histogram.png">
+</section>
+
+
+      <section class="summary">
+          <h2>Libraries</h2>
+        <dl>
+          <dt id="cuid2">
+  <span class="name"><a href="cuid2/cuid2-library.html">cuid2</a></span> 
+
+</dt>
+<dd><code>cuid2</code> is a <a href="https://dart.dev/">Dart</a> implementation of the <a href="https://github.com/paralleldrive/cuid2">cuid2</a> library.
+</dd>
+
+        </dl>
+      </section>
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="https://github.com/obsidiaHQ/cuid2">cuid2 package</a></li>
+</ol>
+
+
+    <h5 class="hidden-xs"><span class="package-name">cuid2</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="cuid2/cuid2-library.html">cuid2</a></li>
+</ol>
+
+  </div>
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div>
+
+</main>
+
+<footer>
+  <span class="no-break">
+    cuid2
+      2.0.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="static-assets/highlight.pack.js?v1"></script>
+<script src="static-assets/script.js?v1"></script>
+
+
+
+</body>
+
+</html>
+
