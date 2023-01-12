@@ -37,3 +37,9 @@ void main() {
   print(id30); // oxjkyfqo3aqk3jigelnuyp3ef299qx
 }
 ```
+
+## Testing
+
+a histogram analysis is done on every batch of tests to ensure a fair and random distribution across the whole entropy range. Any bias found during the analysis would increase the chances of ID collision and cause the tests to fail automatically.
+
+<img  alt="Histogram" src="histogram.png">
