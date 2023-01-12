@@ -26,7 +26,7 @@ Need unique ids in your app? Forget UUIDs and GUIDs which often collide in large
 
 ## Usage
 
-```
+```dart
 // import package
 
 void main() {
