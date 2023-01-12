@@ -1,6 +1,6 @@
 name: cuid2
 description: A dart implementaion of the secure, collision-resistant ids optimized for horizontal scaling and performance (v2). 
-version: 1.0.0
+version: 2.0.0
 homepage: https://github.com/obsidiaHQ/cuid2
 repository: https://github.com/obsidiaHQ/cuid2
 

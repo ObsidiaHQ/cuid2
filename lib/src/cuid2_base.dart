@@ -8,12 +8,17 @@ import 'package:pointycastle/digests/sha3.dart';
 class Cuid {
   static final _cache = <String, Cuid>{};
 
-  int defaultIDLength = 24;
-  int entropyLength = 32;
+  int idLength = 24;
+  final int _entropyLength = 32;
+  Function? counter;
   Random _random = Random();
-  int _counter = 0;
+  String Function()? fingerprint;
 
-  Cuid._create(this.defaultIDLength, this.entropyLength, bool secure) {
+  Cuid._create(
+      [this.idLength = 24,
+      bool secure = false,
+      Function? counter,
+      String Function()? fingerprint]) {
     if (secure) {
       try {
         _random = Random.secure();
@@ -21,12 +26,21 @@ class Cuid {
         print("Random.secure() is not supported, but 'secure' flag was true");
       }
     }
+
+    this.fingerprint = fingerprint ?? _createFingerprint;
+    this.counter =
+        counter ?? _createCounter((_random.nextDouble() * 2057).floor());
   }
 
   factory Cuid(
-          [int idLength = 24, int entropyLength = 32, bool secure = false]) =>
-      _cache.putIfAbsent('$secure$idLength',
-          () => Cuid._create(idLength, entropyLength, secure));
+      [int idLength = 24,
+      bool secure = false,
+      Function? counter,
+      String Function()? fingerprint]) {
+    return _cache.putIfAbsent(
+        '$secure$idLength${counter.hashCode}${fingerprint.hashCode}',
+        () => Cuid._create(idLength, secure, counter, fingerprint));
+  }
 
   final List<int> _primes = [
     109717,
@@ -47,14 +61,14 @@ class Cuid {
   String _createEntropy() {
     String entropy = "";
 
-    while (entropy.length < entropyLength) {
+    while (entropy.length < _entropyLength) {
       final randomPrime =
           _primes[(_random.nextDouble() * _primes.length).floor()];
       entropy =
           "$entropy${(_random.nextDouble() * randomPrime).floor().toRadixString(36)}";
     }
 
-    return entropy.substring(0, entropyLength);
+    return entropy.substring(0, _entropyLength);
   }
 
   String _typedArrayToString(List<int> arr) {
@@ -73,11 +87,11 @@ class Cuid {
         .substring(2);
   }
 
-  String _randomLetter(Random random) {
+  String _randomLetter() {
     return _alphabet[(_random.nextDouble() * _alphabet.length).floor()];
   }
 
-  String _createFingerprint(Random random) {
+  String _createFingerprint() {
     final hostname = Platform.localHostname;
     final version = Platform.operatingSystemVersion;
     final os = Platform.operatingSystem;
@@ -91,23 +105,16 @@ class Cuid {
     return value.toString().padLeft(len, "0");
   }
 
-  String _getCounter() {
-    return _nextCounter().toRadixString(36);
-  }
+  _createCounter(int count) => () => count++;
 
-  int _nextCounter() {
-    _counter++;
-    return _counter - 1;
-  }
-
+  /// Generates a new id based on the instance configuration
   String gen() {
-    final fingerprint = _createFingerprint(_random);
     final time = DateTime.now().millisecondsSinceEpoch.toRadixString(36);
     final randomEntropy = _createEntropy();
-    final count = _getCounter();
-    final firstLetter = _randomLetter(_random);
-    final hashInput = "$time$randomEntropy$count$fingerprint";
+    final count = counter!();
+    final firstLetter = _randomLetter();
+    final hashInput = "$time$randomEntropy$count${fingerprint!()}";
 
-    return "$firstLetter${_hash(hashInput).substring(1, defaultIDLength)}";
+    return "$firstLetter${_hash(hashInput).substring(1, idLength)}";
   }
 }
