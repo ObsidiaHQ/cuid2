@@ -1,5 +1,9 @@
 # Cuid2
 
+![Pub Version](https://img.shields.io/pub/v/cuid2?color=cyan)
+![Pub Publisher](https://img.shields.io/pub/publisher/cuid2)
+![License](https://img.shields.io/badge/license-MIT-blueviolet)
+
 Secure, collision-resistant ids optimized for horizontal scaling and performance. Next generation UUIDs.
 
 Need unique ids in your app? Forget UUIDs and GUIDs which often collide in large apps. Use Cuid2, instead.
@@ -30,9 +34,11 @@ Need unique ids in your app? Forget UUIDs and GUIDs which often collide in large
 // import package
 
 void main() {
-  final id = cuid();
-  final id30 = cuidSecure(30);
+  final id = cuid();  // default options
+  final id30 = cuidSecure(30);  // set length to 30, use Random.secure()
+  final cc = cuidConfig(length: 30);  // custom config - see example
 
+  print(cc.gen())
   print(id); // eh82waoo5fi41lgncwv5oxxb
   print(id30); // oxjkyfqo3aqk3jigelnuyp3ef299qx
 }
@@ -42,4 +48,4 @@ void main() {
 
 a histogram analysis is done on every batch of tests to ensure a fair and random distribution across the whole entropy range. Any bias found during the analysis would increase the chances of ID collision and cause the tests to fail automatically.
 
-<img  alt="Histogram" src="histogram.png">
+![Histogram](https://i.imgur.com/07X7moo.png)
