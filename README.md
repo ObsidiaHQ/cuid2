@@ -1,8 +1,8 @@
 # Cuid2
 
-![Pub Version](https://img.shields.io/pub/v/cuid2?color=cyan)
-![Pub Publisher](https://img.shields.io/pub/publisher/cuid2)
-![License](https://img.shields.io/badge/license-MIT-blueviolet)
+[![Pub Version](https://img.shields.io/pub/v/cuid2?color=cyan)](https://pub.dev/packages/cuid2)
+[![Pub Publisher](https://img.shields.io/pub/publisher/cuid2)](https://pub.dev/publishers/obsidia.io/packages)
+[![License](https://img.shields.io/badge/license-MIT-blueviolet)](https://github.com/obsidiaHQ/cuid2/blob/master/LICENSE)
 
 Secure, collision-resistant ids optimized for horizontal scaling and performance. Next generation UUIDs.
 
@@ -27,11 +27,16 @@ Need unique ids in your app? Forget UUIDs and GUIDs which often collide in large
 
 **[Learn more](https://github.com/paralleldrive/cuid2)**
 
+## Install
+```
+dart pub add cuid2
+```
+
 
 ## Usage
 
 ```dart
-// import package
+import 'package:cuid2/cuid2.dart';
 
 void main() {
   final id = cuid();  // default options
