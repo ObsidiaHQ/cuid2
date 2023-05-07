@@ -52,7 +52,35 @@ String cuidSecure([int length = 24]) => Cuid(length, true).gen();
 /// `secure` _optional_ uses [Random.secure()] when set to true (if available), otherwise (default & fallback) it uses [Random()]
 Cuid cuidConfig(
         {int length = 24,
-        Function? counter,
+        int Function()? counter,
         String Function()? fingerprint,
         bool secure = false}) =>
     Cuid(length, secure, counter, fingerprint);
+
+/// Determines if the given string `id` is a valid CUID based on the specified length constraints.
+///
+/// The function checks if the input string `id` consists only of alphanumeric lowercase characters and
+/// if its length is within the given range. The minimum and maximum length constraints can be
+/// customized using the optional named parameters `minLength` and `maxLength`, which default to 2 and 32, respectively.
+///
+/// Returns `true` if the input string `id` is a valid CUID, otherwise returns `false`.
+///
+/// Example usage:
+///
+/// ```dart
+/// bool isValid = isCuid('abc123');
+/// ```
+///
+/// `id`: The input string to check for validity.
+/// `minLength`: The minimum length constraint for the input string (default: 2).
+/// `maxLength`: The maximum length constraint for the input string (default: 32).
+bool isCuid(String id, {int minLength = 2, int maxLength = 32}) {
+  final length = id.length;
+  final regex = RegExp(r'^[0-9a-z]+$');
+
+  if (length >= minLength && length <= maxLength && regex.hasMatch(id)) {
+    return true;
+  }
+
+  return false;
+}

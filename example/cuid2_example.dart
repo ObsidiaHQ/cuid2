@@ -4,7 +4,7 @@ void main() {
   final id = cuid();
   final id30 = cuidSecure(30);
 
-  Function myCounter(int start) {
+  int Function() myCounter(int start) {
     return () => start += 5;
   }
 
