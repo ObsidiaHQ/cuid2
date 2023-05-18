@@ -23,3 +23,8 @@ final id = cc.gen();
 - refactor code and bring it up to cuid2,js v2.2.0
 - add more tests
 - **[POSSIBLE BREAKING CHANGE]** `counter` parameter function is now of type `int Function()?` instead of `Function?`
+
+## 3.1.0
+
+- fix fingerprinting on web
+- increase min SDK version from 2.12.0 to 2.14.0

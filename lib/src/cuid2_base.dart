@@ -86,10 +86,6 @@ class Cuid {
     return _alphabet[(_random.nextDouble() * _alphabet.length).floor()];
   }
 
-  String _pad(String value, int len) {
-    return value.toString().padLeft(len, "0");
-  }
-
   int Function() _createCounter(int count) => () => count++;
 
   /// Generates a new id based on the instance configuration
