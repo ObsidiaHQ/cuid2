@@ -29,6 +29,8 @@ void main() {
 
     final cuid = cuidConfig(fingerprint: myfingerprint);
     expect(cuid.fingerprint!(), equals(myfingerprint()));
+
+    expect(cuidConfig().fingerprint!(), isNotEmpty);
   });
 
   test('custom counter increments count', () {

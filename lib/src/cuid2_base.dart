@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
+import './fp_native.dart' if (dart.library.html) './fp_web.dart';
 
 import 'package:pointycastle/digests/sha3.dart';
 
@@ -34,7 +34,7 @@ class Cuid {
       }
     }
 
-    this.fingerprint = fingerprint ?? _createFingerprint;
+    this.fingerprint = fingerprint ?? createFingerprint;
     this.counter = counter ??
         _createCounter((_random.nextDouble() * initialCountMax).floor());
   }
@@ -86,20 +86,6 @@ class Cuid {
     return _alphabet[(_random.nextDouble() * _alphabet.length).floor()];
   }
 
-  /// This is a fingerprint of the host environment. It is used to help
-  /// prevent collisions when generating ids in a distributed system.
-  /// You can also pass your own fingerprint function in the constructor.
-  String _createFingerprint() {
-    final hostname = Platform.localHostname;
-    final version = Platform.operatingSystemVersion;
-    final os = Platform.operatingSystem;
-    final fingerprint = '${_pad(pid.toRadixString(36), 3)}$hostname$version$os';
-    final entropy = _createEntropy(length: _entropyLength);
-    final sourceString = '$fingerprint$entropy';
-
-    return _hash(sourceString).substring(0, _entropyLength);
-  }
-
   String _pad(String value, int len) {
     return value.toString().padLeft(len, "0");
   }
@@ -116,7 +102,8 @@ class Cuid {
     // length of the hash. For simplicity, we use the same length as the
     // intended id output.
     final salt = _createEntropy(length: idLength);
-    final hashInput = "$time$salt$count${fingerprint!()}";
+    final hashInput =
+        "$time$salt$count${_hash(fingerprint!()).substring(0, _entropyLength)}";
 
     return "$firstLetter${_hash(hashInput).substring(1, idLength)}";
   }
