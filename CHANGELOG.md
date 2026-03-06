@@ -1,3 +1,11 @@
+## 4.1.0
+
+- Migrated `dart:html` to `package:web` (now a dependency).
+- SDK constraint updated to `>=3.4.0 <4.0.0`.
+- Updated dependencies.
+
+---
+
 ## 4.0.0
 
 - Add **CLI** (`dart run cuid2` or `cuid2`).
